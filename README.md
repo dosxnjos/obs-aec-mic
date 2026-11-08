@@ -1,6 +1,8 @@
-# obs-aec-mic — echo-cancelling microphone for OBS on Windows
+# Echo-cancelling Mic (Windows)
 
 [Português](README.pt-BR.md)
+
+A third-party plugin for OBS Studio, not affiliated with or endorsed by the OBS Project.
 
 Streaming **without headphones**? Your microphone picks up the game and your friends on Discord from
 the speakers, so your stream plays them twice: once from desktop audio and once, delayed and echoey,
@@ -101,6 +103,8 @@ OBS → **Help → Log Files → View Current Log**, look for:
 ```
 
 `not reported / off` means Windows doesn't offer echo cancellation for that mic.
+
+Found a bug or it doesn't work on your PC? Open an [issue](../../issues) with that log line.
 
 ## Build
 

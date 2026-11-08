@@ -1,6 +1,8 @@
-# obs-aec-mic — microfone com cancelamento de eco para o OBS no Windows
+# Microfone com cancelamento de eco (Windows)
 
 [English](README.md)
+
+Plugin de terceiros para o OBS Studio, sem vínculo com o OBS Project nem endosso dele.
 
 Faz live **sem fone**? O microfone pega o jogo e os amigos do Discord que saem na caixa de som, e a live
 toca tudo duas vezes: uma pelo áudio do desktop e outra, atrasada e com eco, pelo microfone.
@@ -100,6 +102,8 @@ OBS → **Ajuda → Arquivos de log → Ver log atual**, procure:
 ```
 
 `not reported / off` quer dizer que o Windows não oferece cancelamento de eco para esse microfone.
+
+Achou um bug ou não funciona no seu PC? Abra uma [issue](../../issues) com essa linha do log.
 
 ## Compilar
 
