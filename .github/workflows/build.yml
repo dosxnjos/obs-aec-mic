@@ -1,0 +1,68 @@
+name: build
+
+on:
+  push:
+    branches: [main]
+    tags: ['v*']
+  pull_request:
+
+permissions:
+  contents: write
+
+jobs:
+  windows-x64:
+    runs-on: windows-latest
+    timeout-minutes: 30
+    env:
+      OBS_TAG: '32.0.4'
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Cache obs.dll
+        id: cache-obs
+        uses: actions/cache@v4
+        with:
+          path: obs-dist
+          key: obs-dll-${{ env.OBS_TAG }}-windows-x64
+
+      - name: Get obs.dll from the official OBS release
+        if: steps.cache-obs.outputs.cache-hit != 'true'
+        shell: pwsh
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          New-Item -ItemType Directory -Force obs-dist | Out-Null
+          gh release download $env:OBS_TAG -R obsproject/obs-studio -p "OBS-Studio-$env:OBS_TAG-Windows-x64.zip" -D obs-dist
+          Expand-Archive "obs-dist/OBS-Studio-$env:OBS_TAG-Windows-x64.zip" obs-dist/x
+          $dll = Get-ChildItem obs-dist/x -Recurse -Filter obs.dll | Where-Object { $_.FullName -match '64bit' } | Select-Object -First 1
+          if (-not $dll) { throw 'obs.dll not found in the OBS zip' }
+          Copy-Item $dll.FullName obs-dist/obs.dll
+          Remove-Item -Recurse -Force obs-dist/x, "obs-dist/*.zip"
+
+      - name: Version
+        id: ver
+        shell: pwsh
+        run: |
+          if ($env:GITHUB_REF -like 'refs/tags/v*') { $v = $env:GITHUB_REF_NAME.Substring(1) }
+          else { $v = "0.0.0-dev.$($env:GITHUB_SHA.Substring(0, 7))" }
+          "version=$v" >> $env:GITHUB_OUTPUT
+
+      - name: Build
+        shell: pwsh
+        run: ./scripts/build.ps1 -ObsDll obs-dist/obs.dll -ObsTag $env:OBS_TAG -Version ${{ steps.ver.outputs.version }} -Test
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: obs-aec-mic-${{ steps.ver.outputs.version }}-windows-x64
+          path: build/obs-aec-mic-${{ steps.ver.outputs.version }}-windows-x64.zip
+
+      - name: Release
+        if: startsWith(github.ref, 'refs/tags/v')
+        shell: pwsh
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          $zip = "build/obs-aec-mic-${{ steps.ver.outputs.version }}-windows-x64.zip"
+          $hash = (Get-FileHash $zip -Algorithm SHA256).Hash.ToLower()
+          $notes = "Download obs-aec-mic-${{ steps.ver.outputs.version }}-windows-x64.zip, close OBS, extract it and run install.bat. See the README.`n`nSHA-256: $hash"
+          gh release create $env:GITHUB_REF_NAME $zip --title "obs-aec-mic $env:GITHUB_REF_NAME" --notes $notes

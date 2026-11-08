@@ -1,0 +1,16 @@
+{
+  "display_name": "Echo-cancelling Mic (Windows)",
+  "id": "com.github.dosxnjos.obs-aec-mic",
+  "name": "aec-mic",
+  "version": "0.1.0",
+  "os_arch": "windows-x64",
+  "description": "Microphone source that uses Windows' own acoustic echo cancellation.",
+  "long_description": "Opens the microphone in the Windows Communications mode, so Windows removes from it the game and voice chat audio playing on your speakers. Made for streaming without headphones.",
+  "urls": {
+    "repository": "https://github.com/dosxnjos/obs-aec-mic",
+    "website": "https://github.com/dosxnjos/obs-aec-mic",
+    "support": "https://github.com/dosxnjos/obs-aec-mic/issues"
+  },
+  "has_banner": false,
+  "has_icon": false
+}
