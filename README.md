@@ -86,6 +86,12 @@ voice file and measures what the source delivers (see the header of `tests/test-
 
 CI builds every push; tags `v*` publish a release.
 
+## AI disclosure
+
+This plugin was written with AI assistance (Claude Code), under the author's direction. The echo
+measurements above were taken on real hardware, the code went through independent reviews, and the
+author uses it in his own streams.
+
 ## License
 
 GPL-2.0-or-later, like OBS Studio. See [LICENSE](LICENSE).

@@ -72,6 +72,12 @@ OBS → **Ajuda → Arquivos de log → Ver log atual**, procure:
 
 Veja a seção *Build* do [README em inglês](README.md#build).
 
+## Uso de IA
+
+Este plugin foi escrito com ajuda de IA (Claude Code), sob a direção do autor. As medições de eco acima
+foram feitas em hardware de verdade, o código passou por revisões independentes e o autor usa o plugin
+nas próprias lives.
+
 ## Licença
 
 GPL-2.0 ou posterior, como o OBS Studio. Veja [LICENSE](LICENSE).
